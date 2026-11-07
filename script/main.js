@@ -510,6 +510,42 @@
   updateScroll();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(updateScroll);
 
+  const lightbox = document.getElementById('photoLightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  if (lightbox && lightboxImage && typeof lightbox.showModal === 'function') {
+    function sizeLightbox(){
+      if (!lightboxImage.naturalWidth || !lightboxImage.naturalHeight) return;
+      const maxW = window.innerWidth * .92 - 20;
+      const maxH = window.innerHeight * .76;
+      const ratio = lightboxImage.naturalWidth / lightboxImage.naturalHeight;
+      const width = Math.max(220, Math.min(maxW, maxH * ratio, 880));
+      lightbox.style.width = Math.round(width + 20) + 'px';
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('.doc-media'), function(link){
+      link.addEventListener('click', function(event){
+        const img = link.querySelector('img');
+        const card = link.closest('.doc-card');
+        const caption = card ? card.querySelector('figcaption') : null;
+        event.preventDefault();
+        lightboxImage.src = link.getAttribute('href');
+        lightboxImage.alt = img ? img.alt : '';
+        if (lightboxCaption) {
+          lightboxCaption.textContent = caption ? caption.textContent.replace(/\s+/g, ' ').trim() : '';
+        }
+        lightbox.showModal();
+        requestAnimationFrame(sizeLightbox);
+      });
+    });
+    lightboxImage.addEventListener('load', sizeLightbox);
+    window.addEventListener('resize', sizeLightbox);
+    const closeButton = lightbox.querySelector('.lightbox-close');
+    if (closeButton) closeButton.addEventListener('click', function(){ lightbox.close(); });
+    lightbox.addEventListener('click', function(event){
+      if (event.target === lightbox) lightbox.close();
+    });
+  }
+
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches && svg && svg.pauseAnimations) {
     svg.pauseAnimations();
   }
