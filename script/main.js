@@ -7,13 +7,13 @@
   const fallback = svg ? svg.querySelector('#fallback') : null;
   const plan = document.querySelector('.plan');
   const note = document.getElementById('planNote');
-  const CX = 500;
-  const CY = 160;
+  const CX = 540;
+  const CY = 150;
   const UX = 6;
   const UY = 3;
 
   const notes = {
-    day: 'Tata letak usulan. Skema tidak berskala; detail final mengikuti survei lokasi dan arahan Pemda.',
+    day: 'Tata letak mengikuti denah Lapangan Puputan Klungkung: panggung di utara, Balai Budaya dan skate park di selatan. Skema tidak berskala; detail final mengikuti survei lokasi.',
     night: 'Simulasi malam puncak: panggung, wahana, dan area kembang api aktif hingga 00.15 WITA.',
     safety: 'Overlay keselamatan: jalur evakuasi, titik kumpul, dan radius aman kembang api.'
   };
@@ -100,7 +100,7 @@
     make('path', { d: 'M0 0L10 5L0 10Z', fill: '#53624f' }, arrow);
 
     const ground = make('g', null, scene);
-    const corners = [P(0, 0), P(100, 0), P(100, 60), P(0, 60)];
+    const corners = [P(0, 0), P(100, 0), P(100, 78), P(0, 78)];
     polygon(ground, [corners[3], corners[2], [corners[2][0], corners[2][1] + 14], [corners[3][0], corners[3][1] + 14]], { fill: 'var(--plan-ground-side)' });
     polygon(ground, [corners[2], corners[1], [corners[1][0], corners[1][1] + 14], [corners[2][0], corners[2][1] + 14]], { fill: 'var(--plan-ground-side)' });
     polygon(ground, corners, {
@@ -111,13 +111,13 @@
     });
 
     for (let x = 10; x < 100; x += 10) {
-      line(ground, P(x, 0), P(x, 60), { stroke: 'var(--plan-grid)', 'stroke-width': '0.7' });
+      line(ground, P(x, 0), P(x, 78), { stroke: 'var(--plan-grid)', 'stroke-width': '0.7' });
     }
-    for (let y = 10; y < 60; y += 10) {
+    for (let y = 10; y < 78; y += 10) {
       line(ground, P(0, y), P(100, y), { stroke: 'var(--plan-grid)', 'stroke-width': '0.7' });
     }
 
-    polygon(ground, [P(4, 4), P(96, 4), P(96, 56), P(4, 56)], {
+    polygon(ground, [P(4, 4), P(96, 4), P(96, 74), P(4, 74)], {
       fill: 'none',
       stroke: 'var(--plan-boundary)',
       'stroke-width': '1',
@@ -132,28 +132,32 @@
 
     const paths = make('g', null, scene);
     const pathFill = { fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '0.8' };
-    flatQuad(paths, 48, 38, 8, 20, pathFill);
-    flatQuad(paths, 24, 23, 24, 5, pathFill);
-    flatQuad(paths, 56, 39, 40, 5, pathFill);
-    flatQuad(paths, 28, 20, 52, 3.4, pathFill);
-    line(paths, P(52, 58), P(52, 40), { stroke: 'var(--plan-path-line)', 'stroke-width': '1.2', 'stroke-dasharray': '4 6' });
-    line(paths, P(24, 25.5), P(48, 25.5), { stroke: 'var(--plan-path-line)', 'stroke-width': '1', 'stroke-dasharray': '4 6' });
-    line(paths, P(56, 41.5), P(96, 41.5), { stroke: 'var(--plan-path-line)', 'stroke-width': '1', 'stroke-dasharray': '4 6' });
+    flatQuad(paths, 4, 4, 92, 4, pathFill);
+    flatQuad(paths, 4, 70, 92, 4, pathFill);
+    flatQuad(paths, 4, 8, 4, 62, pathFill);
+    flatQuad(paths, 92, 8, 4, 62, pathFill);
+    flatQuad(paths, 46, 8, 8, 62, pathFill);
+    flatQuad(paths, 8, 32, 38, 4, pathFill);
+    flatQuad(paths, 4, 50, 38, 24, { fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '1' });
+    flatQuad(paths, 44, 54, 40, 22, { fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '1' });
 
-    const plaza = P(62, 40);
+    const plaza = P(50, 32);
     make('ellipse', {
-      cx: plaza[0], cy: plaza[1], rx: 140, ry: 66,
+      cx: plaza[0], cy: plaza[1], rx: 94, ry: 42,
       fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '1'
     }, paths);
     make('ellipse', {
-      cx: plaza[0], cy: plaza[1], rx: 104, ry: 48,
+      cx: plaza[0], cy: plaza[1], rx: 66, ry: 29,
       fill: 'none', stroke: 'var(--plan-path-line)', 'stroke-width': '0.9', 'stroke-dasharray': '3 5'
     }, paths);
 
+    line(paths, P(50, 8), P(50, 32), { stroke: 'var(--plan-path-line)', 'stroke-width': '1.2', 'stroke-dasharray': '4 6' });
+    line(paths, P(8, 34), P(46, 34), { stroke: 'var(--plan-path-line)', 'stroke-width': '1', 'stroke-dasharray': '4 6' });
+    line(paths, P(50, 34), P(50, 70), { stroke: 'var(--plan-path-line)', 'stroke-width': '1', 'stroke-dasharray': '4 6' });
+
     const treeSpots = [
-      [4, 4, 0.9], [16, 3, 1.1], [32, 3, 1], [48, 3, 1.15], [66, 3, 0.95],
-      [82, 5, 1.05], [96, 9, 0.9], [98, 29, 1], [96, 44, 0.95], [90, 57, 1.05],
-      [72, 58, 0.9], [52, 58, 1], [34, 57, 0.95], [18, 56, 1.05], [2, 48, 0.9], [2, 32, 1]
+      [2, 18, 0.8], [2, 46, 0.85], [2, 68, 0.8], [98, 12, 0.8], [98, 48, 0.85],
+      [34, 76, 0.75], [84, 76, 0.8], [12, 76, 0.75]
     ];
     const trees = make('g', null, scene);
     treeSpots.forEach(function(spot){
@@ -164,149 +168,220 @@
       make('circle', { cx: pt[0] - 3 * s, cy: pt[1] - 12 * s, r: 4.6 * s, fill: 'var(--plan-sage)', opacity: '0.72' }, trees);
     });
 
+    const parking = zoneGroup('parking', 'Parkir dan retribusi');
+    flatQuad(parking, 4, -8, 92, 5, { fill: 'var(--plan-path)', stroke: 'var(--plan-boundary)', 'stroke-width': '1.1' });
+    flatQuad(parking, -6, 6, 4, 66, { fill: 'var(--plan-path)', stroke: 'var(--plan-boundary)', 'stroke-width': '1.1' });
+    flatQuad(parking, 102, 6, 4, 66, { fill: 'var(--plan-path)', stroke: 'var(--plan-boundary)', 'stroke-width': '1.1' });
+    flatQuad(parking, 8, 82, 84, 6, { fill: 'var(--plan-path)', stroke: 'var(--plan-boundary)', 'stroke-width': '1.1' });
+    for (let x = 12; x < 96; x += 8) {
+      line(parking, P(x, -8), P(x, -3), { stroke: 'var(--plan-path-line)', 'stroke-width': '0.8' });
+    }
+    for (let i = 0; i < 7; i++) {
+      isoBox(parking, 20 + i * 8, -7.4, 2.2, 1.5, 2, i % 2 ? 'var(--plan-cream)' : 'var(--plan-gold)', 'var(--plan-gold-side)');
+    }
+    isoBox(parking, -5.4, 18, 2.4, 1.8, 2, 'var(--plan-gold)', 'var(--plan-gold-side)');
+    isoBox(parking, -5.4, 26, 2.4, 1.8, 2, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    isoBox(parking, 103.2, 20, 2.4, 1.8, 2, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    isoBox(parking, 103.2, 28, 2.4, 1.8, 2, 'var(--plan-gold)', 'var(--plan-gold-side)');
+    const parkSign = P(50, -5.5);
+    make('circle', { cx: parkSign[0], cy: parkSign[1] - 10, r: 11, fill: 'var(--plan-cream)', stroke: 'var(--plan-gold)', 'stroke-width': '1.2' }, parking);
+    const parkText = make('text', { x: parkSign[0], y: parkSign[1] - 6.4, 'text-anchor': 'middle', fill: 'var(--plan-maroon)', 'font-size': '11' }, parking);
+    parkText.textContent = 'P';
+
     const stage = zoneGroup('stage', 'Panggung utama');
-    isoBox(stage, 6, 8, 18, 10, 3, 'var(--plan-gold)', 'var(--plan-gold-side)');
-    [[6, 8], [24, 8], [24, 18], [6, 18]].forEach(function(corner){
-      line(stage, P(corner[0], corner[1], 3), P(corner[0], corner[1], 31), { stroke: 'var(--plan-gold)', 'stroke-width': '1.7' });
-    });
-    polygon(stage, [P(6, 8, 3), P(24, 8, 3), P(24, 8, 29), P(6, 8, 29)], {
+    isoBox(stage, 34, 0, 32, 8, 3, 'var(--plan-gold)', 'var(--plan-gold-side)');
+    polygon(stage, [P(34, 0, 3), P(66, 0, 3), P(66, 0, 28), P(34, 0, 28)], {
       fill: 'var(--plan-maroon)', stroke: 'var(--plan-ink)', 'stroke-width': '0.8', 'stroke-opacity': '0.22'
     });
-    line(stage, P(8, 8, 21), P(22, 8, 21), { stroke: 'var(--plan-gold)', 'stroke-width': '2.6' });
-    line(stage, P(8, 8, 17), P(22, 8, 17), { stroke: 'var(--plan-cream)', 'stroke-width': '1', opacity: '0.65' });
-    isoSlab(stage, 6, 8, 18, 10, 36, 5, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    isoBox(stage, 8, 17.5, 3, 2, 7, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    isoBox(stage, 19, 17.5, 3, 2, 7, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    isoBox(stage, 12, 18.4, 6, 1.2, 1.2, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    [[34, 0], [66, 0], [34, 8], [66, 8]].forEach(function(corner){
+      line(stage, P(corner[0], corner[1], 3), P(corner[0], corner[1], 31), { stroke: 'var(--plan-gold)', 'stroke-width': '1.7' });
+    });
+    isoSlab(stage, 34, 0, 32, 8, 31, 4, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    line(stage, P(35, 8, 13), P(65, 8, 13), { stroke: 'var(--plan-gold)', 'stroke-width': '2.4' });
+    line(stage, P(35, 8, 10), P(65, 8, 10), { stroke: 'var(--plan-cream)', 'stroke-width': '1', opacity: '0.65' });
+    isoBox(stage, 34, 8, 3, 2, 7, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    isoBox(stage, 63, 8, 3, 2, 7, 'var(--plan-cream)', 'var(--plan-gold-side)');
+
+    const audience = make('g', null, scene);
+    flatQuad(audience, 8, 0, 22, 12, { fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '0.9' });
+    for (let i = 0; i < 3; i++) {
+      isoBox(audience, 9, 1.5 + i * 3.2, 20, 1.2, 0.8, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    }
+
+    const vip = make('g', null, scene);
+    flatQuad(vip, 70, 0, 18, 12, { fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '0.9' });
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 2; j++) {
+        isoBox(vip, 72 + i * 5, 2 + j * 5, 3, 2, 1.4, 'var(--plan-cream)', 'var(--plan-gold-side)');
+      }
+    }
+
+    const foh = make('g', null, scene);
+    isoBox(foh, 44, 26, 7, 6, 5, 'var(--plan-muted)', 'var(--plan-ink)');
+    isoBox(foh, 44, 33, 10, 2, 2, 'var(--plan-water)', 'var(--plan-sage-side)');
+
+    const balloon = make('g', null, scene);
+    isoBox(balloon, 78, 14, 8, 6, 5, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    make('circle', { cx: P(82, 17, 12)[0], cy: P(82, 17, 12)[1], r: 10, fill: 'var(--plan-maroon)', opacity: '0.9' }, balloon);
+    line(balloon, P(82, 17, 5), P(82, 17, 10), { stroke: 'var(--plan-ink)', 'stroke-width': '1' });
+
+    const sponsor = make('g', null, scene);
+    for (let i = 0; i < 6; i++) {
+      isoBox(sponsor, 8, 12 + i * 3.1, 2.2, 2.2, 4, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    }
+    for (let i = 0; i < 7; i++) {
+      isoBox(sponsor, 88, 14 + i * 3.1, 2.2, 2.2, 4, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    }
+
+    const service = make('g', null, scene);
+    isoBox(service, 2, 18, 3, 3, 5, 'var(--plan-sage)', 'var(--plan-sage-side)');
+    isoBox(service, 94, 24, 3, 3, 5, 'var(--plan-gold)', 'var(--plan-gold-side)');
 
     const carousel = zoneGroup('carousel', 'Komidi putar');
-    const car = P(84, 14);
-    make('ellipse', { cx: car[0], cy: car[1] + 2, rx: 48, ry: 24, fill: 'var(--plan-gold)', opacity: '0.18' }, carousel);
-    make('rect', { x: car[0] - 42, y: car[1] - 38, width: 84, height: 38, fill: 'var(--plan-gold-side)', stroke: 'var(--plan-ink)', 'stroke-width': '0.7', 'stroke-opacity': '0.25' }, carousel);
-    make('ellipse', { cx: car[0], cy: car[1], rx: 42, ry: 20, fill: 'var(--plan-cream)', stroke: 'var(--plan-ink)', 'stroke-width': '0.8', 'stroke-opacity': '0.3' }, carousel);
-    const canopy = make('g', { transform: 'translate(' + car[0] + ' ' + (car[1] - 38) + ')' }, carousel);
+    const car = P(28, 20);
+    make('ellipse', { cx: car[0], cy: car[1] + 2, rx: 38, ry: 18, fill: 'var(--plan-gold)', opacity: '0.18' }, carousel);
+    make('rect', { x: car[0] - 34, y: car[1] - 32, width: 68, height: 32, fill: 'var(--plan-gold-side)', stroke: 'var(--plan-ink)', 'stroke-width': '0.7', 'stroke-opacity': '0.25' }, carousel);
+    make('ellipse', { cx: car[0], cy: car[1], rx: 34, ry: 16, fill: 'var(--plan-cream)', stroke: 'var(--plan-ink)', 'stroke-width': '0.8', 'stroke-opacity': '0.3' }, carousel);
+    const canopy = make('g', { transform: 'translate(' + car[0] + ' ' + (car[1] - 32) + ')' }, carousel);
     const canopySpin = make('g', null, canopy);
     make('animateTransform', { attributeName: 'transform', type: 'rotate', from: '0 0 0', to: '360 0 0', dur: '80s', repeatCount: 'indefinite' }, canopySpin);
-    make('ellipse', { cx: 0, cy: 0, rx: 46, ry: 22, fill: 'var(--plan-maroon)', stroke: 'var(--plan-ink)', 'stroke-width': '0.8', 'stroke-opacity': '0.3' }, canopySpin);
+    make('ellipse', { cx: 0, cy: 0, rx: 38, ry: 18, fill: 'var(--plan-maroon)', stroke: 'var(--plan-ink)', 'stroke-width': '0.8', 'stroke-opacity': '0.3' }, canopySpin);
     for (let i = 0; i < 8; i++) {
       const angle = (Math.PI * 2 * i) / 8;
-      line(canopySpin, [0, 0], [Math.cos(angle) * 46, Math.sin(angle) * 22], { stroke: 'var(--plan-cream)', 'stroke-width': '1.2', opacity: '0.8' });
+      line(canopySpin, [0, 0], [Math.cos(angle) * 38, Math.sin(angle) * 18], { stroke: 'var(--plan-cream)', 'stroke-width': '1.2', opacity: '0.8' });
     }
-    make('circle', { cx: 0, cy: 0, r: 4, fill: 'var(--plan-gold)' }, canopySpin);
-    line(carousel, [car[0], car[1] - 38], [car[0], car[1] - 62], { stroke: 'var(--plan-gold)', 'stroke-width': '1.6' });
-    polygon(carousel, [[car[0], car[1] - 62], [car[0] + 16, car[1] - 57], [car[0], car[1] - 52]], { fill: 'var(--plan-maroon)' });
+    make('circle', { cx: 0, cy: 0, r: 3.5, fill: 'var(--plan-gold)' }, canopySpin);
+    line(carousel, [car[0], car[1] - 32], [car[0], car[1] - 50], { stroke: 'var(--plan-gold)', 'stroke-width': '1.5' });
+    polygon(carousel, [[car[0], car[1] - 50], [car[0] + 13, car[1] - 46], [car[0], car[1] - 42]], { fill: 'var(--plan-maroon)' });
     const horses = make('g', { transform: 'translate(' + car[0] + ' ' + car[1] + ')' }, carousel);
     const horseSpin = make('g', null, horses);
     make('animateTransform', { attributeName: 'transform', type: 'rotate', from: '0 0 0', to: '-360 0 0', dur: '70s', repeatCount: 'indefinite' }, horseSpin);
     for (let i = 0; i < 6; i++) {
       const angle = (Math.PI * 2 * i) / 6;
       make('circle', {
-        cx: Math.cos(angle) * 29,
-        cy: Math.sin(angle) * 13 - 4,
-        r: 3.2, fill: i % 2 ? 'var(--plan-cream)' : 'var(--plan-maroon)'
+        cx: Math.cos(angle) * 24,
+        cy: Math.sin(angle) * 11 - 3,
+        r: 2.8, fill: i % 2 ? 'var(--plan-cream)' : 'var(--plan-maroon)'
       }, horseSpin);
     }
 
-    const food = zoneGroup('food', 'Sentra kuliner dan UMKM');
-    for (let i = 0; i < 5; i++) {
-      isoBox(food, 6 + i * 4.4, 28, 3.6, 3.2, 6, i % 2 ? 'var(--plan-cream)' : 'var(--plan-gold)', 'var(--plan-gold-side)');
-      isoBox(food, 6 + i * 4.4, 34, 3.6, 3.2, 6, i % 2 ? 'var(--plan-gold)' : 'var(--plan-cream)', 'var(--plan-gold-side)');
-    }
-    for (let i = 0; i < 6; i++) {
-      isoBox(food, 62 + i * 4.3, 26, 3.5, 3.2, 6, i % 2 ? 'var(--plan-cream)' : 'var(--plan-gold)', 'var(--plan-gold-side)');
-      isoBox(food, 62 + i * 4.3, 32, 3.5, 3.2, 6, i % 2 ? 'var(--plan-gold)' : 'var(--plan-cream)', 'var(--plan-gold-side)');
-    }
-    isoBox(food, 32, 30, 8, 2, 2, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    isoBox(food, 32, 35, 8, 2, 2, 'var(--plan-cream)', 'var(--plan-gold-side)');
-
-    const kids = zoneGroup('kids', 'Zona anak');
-    const track = P(89, 53);
-    make('ellipse', { cx: track[0], cy: track[1], rx: 54, ry: 27, fill: 'none', stroke: 'var(--plan-gold)', 'stroke-width': '1.4', 'stroke-dasharray': '5 6', opacity: '0.8' }, kids);
-    isoBox(kids, 80, 48, 5, 4, 7, 'var(--plan-sage)', 'var(--plan-sage-side)');
-    isoBox(kids, 86, 50, 5, 3.6, 8, 'var(--plan-gold)', 'var(--plan-gold-side)');
-    isoBox(kids, 91, 47, 4, 4, 6, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    isoBox(kids, 82, 54, 6, 3, 9, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    line(kids, P(86, 50, 10), P(86, 50, 18), { stroke: 'var(--plan-gold)', 'stroke-width': '1.4' });
-    polygon(kids, [P(86, 50, 18), [P(86, 50, 18)[0] + 11, P(86, 50, 18)[1] + 2], P(86, 50, 18)], { fill: 'var(--plan-maroon)' });
-
-    const gate = zoneGroup('gate', 'Gerbang dan plaza');
-    gate.setAttribute('data-zone', 'gate');
-    gate.classList.add('zone-gate');
-    isoBox(gate, 44, 54, 3, 3, 16, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    isoBox(gate, 53, 54, 3, 3, 16, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    isoSlab(gate, 44, 54, 12, 3, 22, 3.5, 'var(--plan-gold)', 'var(--plan-gold-side)');
-    isoBox(gate, 57.4, 54, 2.6, 2.6, 6, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    line(gate, P(50, 61), P(50, 57.5), { stroke: 'var(--plan-gold)', 'stroke-width': '1.6', 'stroke-dasharray': '3 4' });
-    polygon(gate, [P(50, 57.5), [P(50, 57.5)[0] - 4, P(50, 57.5)[1] + 2], [P(50, 57.5)[0] + 4, P(50, 57.5)[1] + 2]], { fill: 'var(--plan-gold)' });
-
-    const medical = zoneGroup('medical', 'Pos medis dan informasi');
-    isoBox(medical, 58, 50, 6, 5, 7, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    const med = P(61, 52.5, 7);
-    line(medical, [med[0] - 5, med[1]], [med[0] + 5, med[1]], { stroke: 'var(--plan-maroon)', 'stroke-width': '2.6' });
-    line(medical, [med[0], med[1] - 5], [med[0], med[1] + 5], { stroke: 'var(--plan-maroon)', 'stroke-width': '2.6' });
-
-    const service = make('g', null, scene);
-    isoBox(service, 2, 44, 4, 4, 5, 'var(--plan-sage)', 'var(--plan-sage-side)');
-    isoBox(service, 95, 28, 3, 3, 5, 'var(--plan-sage)', 'var(--plan-sage-side)');
-    isoBox(service, 2, 20, 4, 3, 5, 'var(--plan-gold)', 'var(--plan-gold-side)');
-
-    const parking = zoneGroup('parking', 'Parkir dan retribusi');
-    polygon(parking, [P(-14, 44), P(0, 44), P(0, 56), P(-14, 56)], {
-      fill: 'var(--plan-path)', stroke: 'var(--plan-boundary)', 'stroke-width': '1.1'
-    });
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 4; c++) {
-        const bx = -13 + c * 3;
-        const by = 45.5 + r * 3.4;
-        polygon(parking, [P(bx, by), P(bx + 2.2, by), P(bx + 2.2, by + 1.6), P(bx, by + 1.6)], {
-          fill: 'var(--plan-cream)', stroke: 'var(--plan-path-line)', 'stroke-width': '0.6'
-        });
-      }
-    }
-    isoBox(parking, -12.6, 45.9, 1.7, 1.2, 2, 'var(--plan-gold)', 'var(--plan-gold-side)');
-    isoBox(parking, -9.6, 45.9, 1.7, 1.2, 2, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    isoBox(parking, -6.6, 45.9, 1.7, 1.2, 2, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    isoBox(parking, -3.6, 45.9, 1.7, 1.2, 2, 'var(--plan-gold)', 'var(--plan-gold-side)');
-    isoBox(parking, -12.6, 49.3, 1.7, 1.2, 2, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
-    isoBox(parking, -9.6, 49.3, 1.7, 1.2, 2, 'var(--plan-cream)', 'var(--plan-gold-side)');
-    const parkSign = P(-7, 51.5);
-    make('circle', { cx: parkSign[0], cy: parkSign[1], r: 12, fill: 'var(--plan-cream)', stroke: 'var(--plan-gold)', 'stroke-width': '1.2' }, parking);
-    const parkText = make('text', { x: parkSign[0], y: parkSign[1] + 3.6, 'text-anchor': 'middle', fill: 'var(--plan-maroon)', 'font-size': '12' }, parking);
-    parkText.textContent = 'P';
-    line(parking, P(0, 50), P(46, 56), { stroke: 'var(--plan-gold)', 'stroke-width': '1.2', 'stroke-dasharray': '4 6', opacity: '0.8' });
-
     const ferris = zoneGroup('ferris', 'Bianglala');
-    const ferrisBase = P(62, 40);
+    const ferrisBase = P(72, 44);
     const hubX = ferrisBase[0];
-    const hubY = ferrisBase[1] - 88;
-    make('ellipse', { cx: hubX, cy: ferrisBase[1] + 2, rx: 54, ry: 25, fill: 'var(--plan-gold)', opacity: '0.16' }, ferris);
-    line(ferris, [hubX - 48, ferrisBase[1]], [hubX, hubY], { stroke: 'var(--plan-gold)', 'stroke-width': '3' });
-    line(ferris, [hubX + 48, ferrisBase[1]], [hubX, hubY], { stroke: 'var(--plan-gold)', 'stroke-width': '3' });
-    line(ferris, [hubX - 56, ferrisBase[1] + 2], [hubX + 56, ferrisBase[1] + 2], { stroke: 'var(--plan-maroon)', 'stroke-width': '3' });
+    const hubY = ferrisBase[1] - 78;
+    make('ellipse', { cx: hubX, cy: ferrisBase[1] + 2, rx: 50, ry: 23, fill: 'var(--plan-gold)', opacity: '0.16' }, ferris);
+    line(ferris, [hubX - 45, ferrisBase[1]], [hubX, hubY], { stroke: 'var(--plan-gold)', 'stroke-width': '3' });
+    line(ferris, [hubX + 45, ferrisBase[1]], [hubX, hubY], { stroke: 'var(--plan-gold)', 'stroke-width': '3' });
+    line(ferris, [hubX - 52, ferrisBase[1] + 2], [hubX + 52, ferrisBase[1] + 2], { stroke: 'var(--plan-maroon)', 'stroke-width': '3' });
     const rotor = make('g', { transform: 'translate(' + hubX + ' ' + hubY + ')' }, ferris);
     const spinner = make('g', null, rotor);
     make('animateTransform', {
       attributeName: 'transform', type: 'rotate', from: '0 0 0', to: '360 0 0',
       dur: '70s', repeatCount: 'indefinite'
     }, spinner);
-    make('circle', { cx: 0, cy: 0, r: 66, fill: 'none', stroke: 'var(--plan-wheel)', 'stroke-width': '2.2' }, spinner);
-    make('circle', { cx: 0, cy: 0, r: 52, fill: 'none', stroke: 'var(--plan-wheel)', 'stroke-width': '0.7', opacity: '0.4' }, spinner);
+    make('circle', { cx: 0, cy: 0, r: 62, fill: 'none', stroke: 'var(--plan-wheel)', 'stroke-width': '2.2' }, spinner);
+    make('circle', { cx: 0, cy: 0, r: 49, fill: 'none', stroke: 'var(--plan-wheel)', 'stroke-width': '0.7', opacity: '0.4' }, spinner);
     for (let i = 0; i < 12; i++) {
       const angle = (Math.PI * 2 * i) / 12;
-      const x = Math.cos(angle) * 66;
-      const y = Math.sin(angle) * 66;
+      const x = Math.cos(angle) * 62;
+      const y = Math.sin(angle) * 62;
       line(spinner, [0, 0], [x, y], { stroke: 'var(--plan-wheel)', 'stroke-width': '0.8', opacity: '0.55' });
-      make('circle', { cx: x, cy: y, r: 4.7, fill: 'var(--plan-cream)', stroke: 'var(--plan-wheel)', 'stroke-width': '1.2' }, spinner);
+      make('circle', { cx: x, cy: y, r: 4.4, fill: 'var(--plan-cream)', stroke: 'var(--plan-wheel)', 'stroke-width': '1.2' }, spinner);
     }
     make('circle', { cx: 0, cy: 0, r: 7, fill: 'var(--plan-cream)', stroke: 'var(--plan-wheel)', 'stroke-width': '1.6' }, rotor);
 
-    const fireworks = zoneGroup('fireworks', 'Zona peluncuran kembang api');
-    const fw = [210, 140];
-    make('ellipse', { cx: fw[0], cy: fw[1] + 4, rx: 42, ry: 18, fill: 'var(--plan-ground)', stroke: 'var(--plan-boundary)', 'stroke-width': '1' }, fireworks);
-    for (let i = 0; i < 5; i++) {
-      make('rect', { x: fw[0] - 18 + i * 8, y: fw[1] - 12, width: 4, height: 15, rx: 1, fill: 'var(--plan-maroon)', stroke: 'var(--plan-ink)', 'stroke-width': '0.5' }, fireworks);
+    const food = zoneGroup('food', 'Sentra kuliner dan UMKM');
+    for (let i = 0; i < 6; i++) {
+      isoBox(food, 8 + i * 4.1, 44, 3.3, 2.8, 5, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+      isoBox(food, 8 + i * 4.1, 48, 3.3, 2.8, 5, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
     }
-    line(fireworks, [fw[0], fw[1] - 24], [fw[0], fw[1] - 64], { stroke: 'var(--plan-maroon)', 'stroke-width': '1.2', 'stroke-dasharray': '2 3' });
+    for (let i = 0; i < 5; i++) {
+      isoBox(food, 38 + i * 3.7, 40, 2.8, 2.4, 4, 'var(--plan-water)', 'var(--plan-sage-side)');
+    }
+    for (let i = 0; i < 9; i++) {
+      isoBox(food, 46 + i * 4, 52, 3.2, 2.6, 5, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    }
+    for (let i = 0; i < 5; i++) {
+      isoBox(food, 88, 36 + i * 3.7, 3, 3, 5, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    }
+    for (let i = 0; i < 4; i++) {
+      isoBox(food, 80 + i * 3.1, 28, 2.7, 2.4, 5, i % 2 ? 'var(--plan-cream)' : 'var(--plan-gold)', 'var(--plan-gold-side)');
+    }
+
+    const kids = zoneGroup('kids', 'Zona anak');
+    flatQuad(kids, 8, 28, 13, 12, { fill: 'var(--plan-path)', stroke: 'var(--plan-path-line)', 'stroke-width': '0.9' });
+    isoBox(kids, 9, 30, 3, 3, 5, 'var(--plan-sage)', 'var(--plan-sage-side)');
+    line(kids, P(12, 31, 5), [P(12, 31, 5)[0] + 18, P(12, 31, 5)[1] + 9], { stroke: 'var(--plan-gold)', 'stroke-width': '2' });
+    const track = P(27, 35);
+    make('ellipse', { cx: track[0], cy: track[1], rx: 46, ry: 22, fill: 'none', stroke: 'var(--plan-gold)', 'stroke-width': '1.3', 'stroke-dasharray': '5 6', opacity: '0.8' }, kids);
+    isoBox(kids, 21, 32, 4, 3, 5, 'var(--plan-sage)', 'var(--plan-sage-side)');
+    isoBox(kids, 27, 36, 4, 3, 6, 'var(--plan-gold)', 'var(--plan-gold-side)');
+    isoBox(kids, 24, 39, 4, 3, 5, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    isoBox(kids, 54, 44, 10, 6, 2, 'var(--plan-cream)', 'var(--plan-maroon-side)');
+    const tramp = P(59, 47, 4);
+    make('ellipse', { cx: tramp[0], cy: tramp[1], rx: 32, ry: 14, fill: 'var(--plan-maroon)', opacity: '0.85' }, kids);
+    make('ellipse', { cx: tramp[0], cy: tramp[1], rx: 25, ry: 10, fill: 'none', stroke: 'var(--plan-cream)', 'stroke-width': '1' }, kids);
+
+    const gate = zoneGroup('gate', 'Gerbang dan plaza');
+    gate.classList.add('zone-gate');
+    isoBox(gate, 0, 30, 2, 2, 13, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    isoBox(gate, 0, 34, 2, 2, 13, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    isoSlab(gate, 0, 30, 2, 6, 17, 3, 'var(--plan-gold)', 'var(--plan-gold-side)');
+    line(gate, P(-5, 32), P(-1, 32), { stroke: 'var(--plan-gold)', 'stroke-width': '1.6', 'stroke-dasharray': '3 4' });
+    polygon(gate, [P(-1, 32), [P(-1, 32)[0] - 4, P(-1, 32)[1] - 2], [P(-1, 32)[0] - 4, P(-1, 32)[1] + 2]], { fill: 'var(--plan-gold)' });
+
+    const medical = zoneGroup('medical', 'Pos medis dan informasi');
+    isoBox(medical, 14, 26, 6, 4, 6, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    const med = P(17, 28, 7);
+    line(medical, [med[0] - 5, med[1]], [med[0] + 5, med[1]], { stroke: 'var(--plan-maroon)', 'stroke-width': '2.6' });
+    line(medical, [med[0], med[1] - 5], [med[0], med[1] + 5], { stroke: 'var(--plan-maroon)', 'stroke-width': '2.6' });
+
+    const balai = make('g', null, scene);
+    isoBox(balai, 8, 54, 28, 18, 10, 'var(--plan-cream)', 'var(--plan-gold-side)');
+    isoSlab(balai, 8, 54, 28, 18, 17, 4, 'var(--plan-maroon)', 'var(--plan-maroon-side)');
+    isoBox(balai, 33, 56, 3, 14, 4, 'var(--plan-gold)', 'var(--plan-gold-side)');
+
+    const skate = make('g', null, scene);
+    flatQuad(skate, 48, 58, 32, 14, { fill: 'var(--plan-sage)', opacity: '0.55', stroke: 'var(--plan-boundary)', 'stroke-width': '0.9' });
+    isoBox(skate, 52, 62, 5, 4, 2, 'var(--plan-sage)', 'var(--plan-sage-side)');
+    isoBox(skate, 66, 66, 6, 3, 2, 'var(--plan-gold)', 'var(--plan-gold-side)');
+    isoBox(skate, 58, 68, 5, 2, 1.5, 'var(--plan-sage)', 'var(--plan-sage-side)');
+
+    const labels = make('g', null, scene);
+    const addLabel = function(x, y, h, text, attrs){
+      const pt = P(x, y, h || 0);
+      label(labels, pt[0], pt[1], text, Object.assign({
+        class: 'plan-label', 'text-anchor': 'middle', 'font-size': '11', 'letter-spacing': '.06em'
+      }, attrs || {}));
+    };
+    addLabel(18, -5.7, 0, 'PARKIR PENGISI ACARA', { fill: 'var(--plan-muted)' });
+    addLabel(19, 7, 2, 'PENONTON ANAK', { fill: 'var(--plan-muted)' });
+    addLabel(80, 7, 2, 'UNDANGAN', { fill: 'var(--plan-muted)' });
+    addLabel(50, 4, 32, 'STAGE', { fill: 'var(--plan-cream)', 'font-size': '10' });
+    addLabel(50, 11, 0, 'PANGGUNG UTAMA', { fill: 'var(--plan-maroon)' });
+    addLabel(22, 64, 12, 'BALAI BUDAYA', { fill: 'var(--plan-ink)' });
+    addLabel(64, 66, 4, 'TAMAN BERMAIN · SKATE PARK', { 'font-size': '9' });
+    addLabel(14, 36, 6, 'PLAYGROUND', { 'font-size': '9' });
+    addLabel(59, 47, 8, 'TRAMPOLIN', { 'font-size': '9' });
+    addLabel(47, 30, 8, 'FOH', { 'font-size': '9' });
+    addLabel(82, 17, 13, 'BALON', { 'font-size': '9' });
+    addLabel(24, 47, 8, 'UMKM', { 'font-size': '9', fill: 'var(--plan-maroon)' });
+    addLabel(93, 45, 9, 'UMKM', { 'font-size': '9', fill: 'var(--plan-maroon)' });
+    addLabel(-4, 55, 0, 'PARKIR MOTOR', { 'font-size': '8', fill: 'var(--plan-muted)' });
+    addLabel(104, 40, 0, 'PARKIR MOTOR', { 'font-size': '8', fill: 'var(--plan-muted)' });
+    addLabel(50, 85, 0, 'PARKIR MOTOR', { 'font-size': '8', fill: 'var(--plan-muted)' });
+    addLabel(2, 33, 20, 'GERBANG', { 'font-size': '9', fill: 'var(--plan-maroon)' });
+
+    const fireworks = zoneGroup('fireworks', 'Zona peluncuran kembang api');
+    const fw = P(76, -13);
+    make('ellipse', { cx: fw[0], cy: fw[1] + 4, rx: 38, ry: 16, fill: 'var(--plan-ground)', stroke: 'var(--plan-boundary)', 'stroke-width': '1' }, fireworks);
+    for (let i = 0; i < 5; i++) {
+      make('rect', { x: fw[0] - 16 + i * 7, y: fw[1] - 10, width: 4, height: 14, rx: 1, fill: 'var(--plan-maroon)', stroke: 'var(--plan-ink)', 'stroke-width': '0.5' }, fireworks);
+    }
+    line(fireworks, [fw[0], fw[1] - 20], [fw[0], fw[1] - 52], { stroke: 'var(--plan-maroon)', 'stroke-width': '1.2', 'stroke-dasharray': '2 3' });
+    label(fireworks, fw[0], fw[1] - 58, 'ZONA KEMBANG API · LUAR PAGAR', {
+      class: 'plan-label', 'text-anchor': 'middle', fill: 'var(--plan-maroon)', 'font-size': '9'
+    });
 
     const safety = make('g', { 'class': 'safety-only' }, scene);
     make('circle', {
@@ -314,28 +389,31 @@
       fill: 'rgba(126,51,37,.06)', stroke: 'var(--plan-maroon)',
       'stroke-width': '1.5', 'stroke-dasharray': '6 6'
     }, safety);
-    label(safety, fw[0], fw[1] + 126, 'RADIUS AMAN ±150 M', {
-      'text-anchor': 'middle', fill: 'var(--plan-maroon)', 'font-size': '11'
+    label(safety, fw[0], fw[1] + 138, 'RADIUS AMAN ±150 M', {
+      'text-anchor': 'middle', fill: 'var(--plan-maroon)', 'font-size': '10'
     });
+    const gatePoint = P(2, 34);
+    const plazaPoint = P(50, 30);
+    const southPoint = P(50, 55);
+    const assemblyWest = P(-6, 40);
+    const assemblySouth = P(50, 84);
     make('path', {
-      d: 'M668 472 Q 570 500 458 481',
+      d: 'M' + plazaPoint[0] + ' ' + plazaPoint[1] + ' Q ' + (gatePoint[0] + 90) + ' ' + (gatePoint[1] + 20) + ' ' + gatePoint[0] + ' ' + gatePoint[1] + ' T ' + assemblyWest[0] + ' ' + assemblyWest[1],
       fill: 'none', stroke: '#53624f', 'stroke-width': '5', 'stroke-linecap': 'round',
       opacity: '0.82', 'marker-end': 'url(#evacArrow)'
     }, safety);
     make('path', {
-      d: 'M668 472 Q 710 560 742 632',
+      d: 'M' + southPoint[0] + ' ' + southPoint[1] + ' Q ' + (southPoint[0] - 80) + ' ' + (southPoint[1] + 50) + ' ' + assemblySouth[0] + ' ' + assemblySouth[1],
       fill: 'none', stroke: '#53624f', 'stroke-width': '5', 'stroke-linecap': 'round',
       opacity: '0.82', 'marker-end': 'url(#evacArrow)'
     }, safety);
-    make('path', {
-      d: 'M458 481 Q 390 520 330 560',
-      fill: 'none', stroke: '#53624f', 'stroke-width': '5', 'stroke-linecap': 'round',
-      opacity: '0.82', 'marker-end': 'url(#evacArrow)'
-    }, safety);
-    make('circle', { cx: 320, cy: 560, r: 10, fill: '#53624f' }, safety);
-    make('circle', { cx: 320, cy: 560, r: 18, fill: 'none', stroke: '#53624f', 'stroke-width': '1', 'stroke-dasharray': '3 4' }, safety);
-    label(safety, 320, 592, 'TITIK KUMPUL', { 'text-anchor': 'middle', fill: '#3f4d3b', 'font-size': '10' });
-    label(safety, 548, 516, 'JALUR EVAKUASI 6 M', { 'text-anchor': 'middle', fill: '#3f4d3b', 'font-size': '10' });
+    make('circle', { cx: assemblyWest[0], cy: assemblyWest[1], r: 10, fill: '#53624f' }, safety);
+    make('circle', { cx: assemblyWest[0], cy: assemblyWest[1], r: 18, fill: 'none', stroke: '#53624f', 'stroke-width': '1', 'stroke-dasharray': '3 4' }, safety);
+    label(safety, assemblyWest[0], assemblyWest[1] - 26, 'TITIK KUMPUL', { 'text-anchor': 'middle', fill: '#3f4d3b', 'font-size': '10' });
+    make('circle', { cx: assemblySouth[0], cy: assemblySouth[1], r: 10, fill: '#53624f' }, safety);
+    make('circle', { cx: assemblySouth[0], cy: assemblySouth[1], r: 18, fill: 'none', stroke: '#53624f', 'stroke-width': '1', 'stroke-dasharray': '3 4' }, safety);
+    label(safety, assemblySouth[0], assemblySouth[1] + 32, 'TITIK KUMPUL', { 'text-anchor': 'middle', fill: '#3f4d3b', 'font-size': '10' });
+    label(safety, plazaPoint[0], plazaPoint[1] - 18, 'JALUR EVAKUASI 6 M', { 'text-anchor': 'middle', fill: '#3f4d3b', 'font-size': '10' });
 
     const night = make('g', { 'class': 'night-only' }, scene);
     const stars = [
@@ -367,21 +445,24 @@
     burst(1110, 60, 26, 'var(--plan-gold)');
 
     const markerData = [
-      ['gate', '01', 420, 524],
-      ['stage', '02', 396, 238],
-      ['ferris', '03', 714, 326],
-      ['carousel', '04', 976, 404],
-      ['kids', '05', 660, 630],
-      ['food', '06', 300, 434],
-      ['food', '06', 820, 548],
-      ['medical', '07', 548, 560],
-      ['fireworks', '08', 210, 70],
-      ['parking', '09', 162, 370]
+      ['gate', '01', 2, 34, -14, 0],
+      ['stage', '02', 38, 5, 0, 0],
+      ['ferris', '03', 72, 44, 0, 10],
+      ['carousel', '04', 28, 23, -12, 0],
+      ['kids', '05', 20, 35, -10, 0],
+      ['food', '06', 18, 48, -12, 0],
+      ['food', '06', 88, 45, 12, 0],
+      ['medical', '07', 17, 28, -12, 0],
+      ['fireworks', '08', 76, -13, 0, 20],
+      ['parking', '09', 104, 20, 0, 0]
     ];
     markerData.forEach(function(item){
+      const pt = P(item[2], item[3]);
+      const mx = pt[0] + item[4];
+      const my = pt[1] + item[5];
       const g = make('g', { 'class': 'marker', 'data-zone': item[0] }, scene);
-      make('circle', { cx: item[2], cy: item[3], r: 12, 'class': 'mdot' }, g);
-      const t = make('text', { x: item[2], y: item[3] + 3.6, 'text-anchor': 'middle' }, g);
+      make('circle', { cx: mx, cy: my, r: 12, 'class': 'mdot' }, g);
+      const t = make('text', { x: mx, y: my + 3.6, 'text-anchor': 'middle' }, g);
       t.textContent = item[1];
     });
 

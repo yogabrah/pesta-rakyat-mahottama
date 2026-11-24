@@ -12,7 +12,7 @@ Website statis proposal penawaran **Pesta Rakyat Mahottama** untuk Pemerintah Ka
 - **Skema:** kerja sama penyelenggaraan; pembiayaan kegiatan diusulkan oleh penyelenggara
 - **Retribusi parkir:** motor Rp4.000 dan mobil Rp6.000 per kendaraan, bila skema disetujui
 - **Ilustrasi parkir:** ±Rp55,3 juta untuk 10 malam pada skenario moderat
-- **Estimasi biaya penyelenggara:** ±Rp770 juta
+- **Estimasi biaya penyelenggara:** ±Rp720,5 juta
 - **Target kunjungan:** 50.000 kunjungan
 
 > Seluruh angka retribusi, kunjungan, dan biaya adalah ilustrasi perencanaan, bukan jaminan. Realisasi mengikuti karcis resmi, kunjungan aktual, kesepakatan para pihak, dan ketentuan peraturan daerah yang berlaku.
